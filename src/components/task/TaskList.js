@@ -62,7 +62,11 @@ export default function TaskList() {
   };
 
   const handleOpenModalDoneTask = () => {
-    setShowMarkDoneModal(true);
+    if(!tasks || tasks.length === 0){
+      toast.warn('Não existem tarefas criadas. Por favor, crie uma tarefa para ser concluída.');
+    }else{
+      setShowMarkDoneModal(true);
+    }
   };
 
   const handleDeleteTask = async () => {
@@ -70,7 +74,7 @@ export default function TaskList() {
     const response = await del(`/tasks/${deleteTaskId}`);
 
     if (response && response.status === 200) {
-      toast.success('Projeto deletado com sucesso.');
+      toast.success('Tarefa deletada com sucesso.');
       setLoading(true);
       await fetchAllTasks();
     }
@@ -85,7 +89,6 @@ export default function TaskList() {
       setLoading(true);
       await fetchAllTasks();
     }
-
   };
 
   return (

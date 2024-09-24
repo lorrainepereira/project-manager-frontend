@@ -163,7 +163,7 @@ function EditTaskForm() {
                                         variant='contained'
                                         loading={isSubmitting}
                                     >
-                                        Atualizar Projeto
+                                        Atualizar Tarefa
                                     </LoadingButton>
 
                                     <Button
