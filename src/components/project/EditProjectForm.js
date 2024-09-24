@@ -8,6 +8,7 @@ import Navbar from "../../layouts/Navbar";
 import {Button, Container, Stack, TextField, Typography} from "@mui/material";
 import {ContentStyle} from "../../layouts/MainLayout";
 import {LoadingButton} from "@mui/lab";
+import {toast} from "react-toastify";
 
 
 function EditProjectForm() {
@@ -38,8 +39,13 @@ function EditProjectForm() {
                 name: values.name,
             };
 
-            await put(`/projects/${state.row.id}`, body);
+            const response = await put(`/projects/${state.row.id}`, body);
 
+            if(response){
+                toast.success('Project updated successfully');
+            }else{
+                toast.error('Project not updated successfully');
+            }
             setSubmitting(false);
         }
     });

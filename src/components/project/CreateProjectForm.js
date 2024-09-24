@@ -8,6 +8,7 @@ import {post} from '../../common/client/fetchApi';
 import {errorMessage} from '../../common/misc/utils';
 import Navbar from '../../layouts/Navbar';
 import {ContentStyle} from '../../layouts/MainLayout';
+import {toast} from "react-toastify";
 
 function CreateProjectForm() {
     const navigate = useNavigate();
@@ -34,8 +35,13 @@ function CreateProjectForm() {
                 name: values.name,
             };
 
-            await post('/projects', body);
+            const response = await post('/projects', body);
 
+            if(response){
+                toast.success('Project created successfully');
+            }else{
+                toast.error('Project not created successfully');
+            }
             setSubmitting(false);
         }
     });

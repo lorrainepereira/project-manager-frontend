@@ -8,6 +8,7 @@ import {post, get} from '../../common/client/fetchApi';
 import {errorMessage} from '../../common/misc/utils';
 import Navbar from '../../layouts/Navbar';
 import {ContentStyle} from '../../layouts/MainLayout';
+import {toast} from "react-toastify";
 
 function CreateTaskForm() {
     const { state } = useLocation();
@@ -71,7 +72,13 @@ function CreateTaskForm() {
                 project: state.idProject,
             };
 
-            await post('/tasks', body);
+            const response = await post('/tasks', body);
+
+            if (response && response.status === 200) {
+                toast.success('Task created successfully');
+            }else{
+                toast.error('Task not created successfully');
+            }
 
             setSubmitting(false);
         }

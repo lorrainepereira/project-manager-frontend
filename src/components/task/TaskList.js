@@ -75,6 +75,8 @@ export default function TaskList() {
       toast.success('Project deleted successfully');
       await fetchAllTasks();
       setLoading(true);
+    }else{
+      toast.error('Project not deleted successfully');
     }
   };
 
@@ -83,9 +85,11 @@ export default function TaskList() {
     const response = await patch(`/tasks/DONE`);
 
     if (response && response.status === 200) {
-      toast.success('Project deleted successfully');
+      toast.success('Project updated status for done successfully');
       setLoading(true);
       await fetchAllTasks();
+    }else{
+      toast.error('Project not updated status for done successfully');
     }
 
   };

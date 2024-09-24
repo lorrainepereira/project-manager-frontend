@@ -66,6 +66,8 @@ export default function ProjectList() {
       toast.success('Project deleted successfully');
       await fetchAllProjects();
       setLoading(true);
+    }else{
+      toast.error('Project not deleted successfully');
     }
 
   };

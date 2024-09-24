@@ -8,6 +8,7 @@ import {get, put} from '../../common/client/fetchApi';
 import {errorMessage} from '../../common/misc/utils';
 import Navbar from '../../layouts/Navbar';
 import {ContentStyle} from '../../layouts/MainLayout';
+import {toast} from "react-toastify";
 
 function EditTaskForm() {
     const { state } = useLocation();
@@ -73,7 +74,13 @@ function EditTaskForm() {
             };
 
             console.log('body',body);
-            await put(`/tasks/${state.row.id}`, body);
+            const response = await put(`/tasks/${state.row.id}`, body);
+
+            if (response && response.status === 200) {
+                toast.success('Task updated successfully');
+            }else{
+                toast.error('Task not updated successfully');
+            }
 
             setSubmitting(false);
         }
