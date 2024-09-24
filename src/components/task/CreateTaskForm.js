@@ -12,7 +12,6 @@ import {toast} from "react-toastify";
 
 function CreateTaskForm() {
     const { state } = useLocation();
-    console.log('state=', state);
 
     const navigate = useNavigate();
     const [taskStatus, setTaskStatus] = useState([]);

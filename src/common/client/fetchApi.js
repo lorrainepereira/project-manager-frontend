@@ -37,7 +37,6 @@ async function fetchApi(endpoint, options = {}) {
 
     return response;
   } catch (error) {
-    console.error(error);
     errorMessage();
   }
 }

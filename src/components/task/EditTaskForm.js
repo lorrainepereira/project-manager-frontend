@@ -12,7 +12,6 @@ import {toast} from "react-toastify";
 
 function EditTaskForm() {
     const { state } = useLocation();
-    console.log('state=', state);
 
     const navigate = useNavigate();
     const [taskStatus, setTaskStatus] = useState([]);
