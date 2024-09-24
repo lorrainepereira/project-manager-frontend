@@ -12,7 +12,7 @@ export default function Tasks() {
                     <ContentStyle>
                         <Stack sx={{ mb: 5 }}>
                             <Typography variant="h4" gutterBottom>
-                                Tasks
+                                Tarefas
                             </Typography>
                         </Stack>
                         <TaskList />

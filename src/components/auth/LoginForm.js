@@ -12,12 +12,12 @@ export default function LoginForm() {
   const schema = Yup.object().shape({
     email: Yup
     .string()
-    .required('Please enter your email')
-    .max(50, 'email too long'),
+    .required('Por favor, informe o email.')
+    .max(20, 'Email muito grande.'),
     password: Yup
     .string()
-    .required('Please enter your password')
-    .max(255, 'Password too long')
+    .required('Por favor, informe a senha.')
+    .max(20, 'Password muito grande.')
   });
 
   const formik = useFormik({
@@ -47,7 +47,7 @@ export default function LoginForm() {
               <TextField
                 fullWidth
                 type="text"
-                label="email"
+                label="Email"
                 {...getFieldProps('email')}
                 error={Boolean(touched.email && errors.email)}
                 helperText={touched.email && errors.email}
@@ -56,7 +56,7 @@ export default function LoginForm() {
               <TextField
                 fullWidth
                 type="password"
-                label="Password"
+                label="Senha"
                 {...getFieldProps('password')}
                 error={Boolean(touched.password && errors.password)}
                 helperText={touched.password && errors.password}

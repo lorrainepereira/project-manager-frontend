@@ -21,7 +21,7 @@ import {GrView} from "react-icons/gr";
 
 const TABLE_HEAD = [
   { id: 'id', label: 'ID', alignRight: false },
-  { id: 'name', label: 'Name', alignRight: false },
+  { id: 'name', label: 'Nome', alignRight: false },
   { id: 'view' },
   { id: 'edit' },
   { id: 'delete' }
@@ -41,17 +41,15 @@ export default function ProjectList() {
     if (response) {
       const data = await response.json();
       setProjects(data);
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   useEffect(   () => {
     setLoading(true);
-    if (!projects || projects.length === 0) {
-      fetchAllProjects();
-    }
-    setLoading(false);
-  }, [projects]);
+    fetchAllProjects();
+  }, []);
 
   const handleOpenModalDeleteProject = async (id) => {
     setDeleteProjectId(id);
@@ -63,11 +61,9 @@ export default function ProjectList() {
     const response = await del(`/projects/${deleteProjectId}`);
 
     if (response && response.status === 200) {
-      toast.success('Project deleted successfully');
-      await fetchAllProjects();
+      toast.success('Projeto deletado com sucesso.');
       setLoading(true);
-    }else{
-      toast.error('Project not deleted successfully');
+      await fetchAllProjects();
     }
 
   };
@@ -82,7 +78,7 @@ export default function ProjectList() {
               component={RouterLink}
               to="/projects/new-project"
           >
-            New Project
+            Novo Projeto
           </Button>
         </Stack>
         {loading && <Stack direction="row" alignItems="center" justifyContent="center" my={'25%'}><CircularProgress /></Stack>}
@@ -113,9 +109,9 @@ export default function ProjectList() {
                             >
                               <TableCell align="left">{row.id}</TableCell>
                               <TableCell align="left">{row.name}</TableCell>
-                              <TableCell align="right"><Button onClick={() => navigate('/projects/list-task', {state: { idProject: row.id}})}><GrView title={'View Task'}/></Button></TableCell>
-                              <TableCell align="right"><Button onClick={() => navigate('/projects/edit-project', {state: {row}})}><FaEdit title={'Edit'}/></Button></TableCell>
-                              <TableCell align="right"><Button onClick={() => handleOpenModalDeleteProject(row.id)}><RiDeleteBin5Line title={'Delete'}/></Button></TableCell>
+                              <TableCell align="right"><Button onClick={() => navigate('/projects/list-task', {state: { idProject: row.id}})}><GrView title={'Visualizar Tarefa'}/></Button></TableCell>
+                              <TableCell align="right"><Button onClick={() => navigate('/projects/edit-project', {state: {row}})}><FaEdit title={'Editar Projeto'}/></Button></TableCell>
+                              <TableCell align="right"><Button onClick={() => handleOpenModalDeleteProject(row.id)}><RiDeleteBin5Line title={'Deletar Projeto'}/></Button></TableCell>
                             </TableRow>
                         );
                       })}

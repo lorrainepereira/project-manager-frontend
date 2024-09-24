@@ -21,25 +21,23 @@ function CreateTaskForm() {
     const schema = Yup.object().shape({
         title: Yup
             .string()
-            .required('Please enter a valid string'),
+            .required('Por favor, informe um título válido.'),
         status: Yup
             .string()
-            .required('Please enter a valid string'),
+            .required('Por favor, informe um status válido.'),
         description: Yup
             .string()
-            .required('Please enter a valid string'),
+            .required('Por favor, informe uma descrição válida.'),
         due_date: Yup
             .date()
-            .required('Please enter a valid string'),
+            .required('Por favor, informe uma data de vencimento válida.'),
     });
 
     const fetchStatus = async () => {
         const response = await get(`/tasks/all-status`);
 
         if (response) {
-            console.log('response=', response);
             const data = await response.json();
-            console.log('data=', data);
             setTaskStatus(data);
         }
 
@@ -58,8 +56,8 @@ function CreateTaskForm() {
         },
         validationSchema: schema,
         onSubmit: async (values, { setSubmitting }) => {
-            if (values.title === null || values.title === undefined || values.title === '') {
-                errorMessage('Title is required');
+            if (values.title.trim() === '') {
+                errorMessage('Título é obrigatório.');
                 setSubmitting(false);
                 return;
             }
@@ -75,9 +73,7 @@ function CreateTaskForm() {
             const response = await post('/tasks', body);
 
             if (response && response.status === 200) {
-                toast.success('Task created successfully');
-            }else{
-                toast.error('Task not created successfully');
+                toast.success('Tarefa criada com sucesso.');
             }
 
             setSubmitting(false);
@@ -94,7 +90,7 @@ function CreateTaskForm() {
                     <>
                         <Stack sx={{ mb: 5 }}>
                             <Typography variant="h4" gutterBottom>
-                                Create new task from project id {state.idProject}
+                                Criar Tarefa - ID Projeto: {state.idProject}
                             </Typography>
                         </Stack>
                         <FormikProvider value={formik}>
@@ -106,7 +102,7 @@ function CreateTaskForm() {
                                             <TextField
                                                 fullWidth
                                                 type='String'
-                                                label='Title'
+                                                label='Título'
                                                 {...getFieldProps('title')}
                                                 error={Boolean(touched.title && errors.title)}
                                                 helperText={touched.title && errors.title}
@@ -139,7 +135,7 @@ function CreateTaskForm() {
                                             <TextField
                                                 fullWidth
                                                 type='String'
-                                                label='Description'
+                                                label='Descrição'
                                                 {...getFieldProps('description')}
                                                 error={Boolean(touched.description && errors.description)}
                                                 helperText={touched.description && errors.description}
@@ -152,7 +148,7 @@ function CreateTaskForm() {
                                             <TextField
                                                 fullWidth
                                                 type='Date'
-                                                label='Due Date'
+                                                label='Data de Vencimento'
                                                 {...getFieldProps('due_date')}
                                                 error={Boolean(touched.due_date && errors.due_date)}
                                                 helperText={touched.due_date && errors.due_date}
@@ -167,7 +163,7 @@ function CreateTaskForm() {
                                         variant='contained'
                                         loading={isSubmitting}
                                     >
-                                        Execute
+                                        Criar tarefa
                                     </LoadingButton>
 
                                     <Button
@@ -178,7 +174,7 @@ function CreateTaskForm() {
                                         variant='contained'
                                         onClick={() => navigate('/projects/list-task',{state: { idProject: state.idProject}})}
                                     >
-                                        Back
+                                        Voltar para listagem de tarefas
                                     </Button>
 
                                 </Stack>

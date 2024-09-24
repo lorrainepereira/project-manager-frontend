@@ -12,7 +12,7 @@ export default function Projects() {
                     <ContentStyle>
                         <Stack sx={{ mb: 5 }}>
                             <Typography variant="h4" gutterBottom>
-                                Projects
+                                Projetos
                             </Typography>
                         </Stack>
                         <ProjectList />

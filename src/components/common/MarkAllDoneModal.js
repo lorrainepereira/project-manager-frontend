@@ -27,18 +27,18 @@ export default function MarkAllDoneModal({onCancel, onSubmit}) {
   return (
     <Dialog open={true} onClose={onCancel} disableEnforceFocus>
       <DialogTitle>
-        Confirm done tasks
+        Confirme atualizar status de todas as tarefas
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want change status all tasks like a done?
+          Tem certeza que deseja concluir todas as tarefas?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
           style={{ color: 'gray' }}
           onClick={onCancel}>
-          No
+          Não
         </Button>
         <LoadingButton
           size='medium'
@@ -46,7 +46,7 @@ export default function MarkAllDoneModal({onCancel, onSubmit}) {
           loading={loading}
           onClick={onConfirm}
         >
-          Yes
+          Sim
         </LoadingButton>
       </DialogActions>
     </Dialog>

@@ -16,7 +16,7 @@ function CreateProjectForm() {
     const schema = Yup.object().shape({
         name: Yup
             .string()
-            .required('Please enter a valid string'),
+            .required('Por favor, informe um nome válido.'),
     });
 
     const formik = useFormik({
@@ -25,8 +25,8 @@ function CreateProjectForm() {
         },
         validationSchema: schema,
         onSubmit: async (values, { setSubmitting }) => {
-            if (values.name === null || values.name === undefined || values.name === '') {
-                errorMessage('Name is required');
+            if (values.name.trim() === '') {
+                errorMessage('Nome é obrigatório.');
                 setSubmitting(false);
                 return;
             }
@@ -38,10 +38,9 @@ function CreateProjectForm() {
             const response = await post('/projects', body);
 
             if(response){
-                toast.success('Project created successfully');
-            }else{
-                toast.error('Project not created successfully');
+                toast.success('Projeto criado com sucesso.');
             }
+
             setSubmitting(false);
         }
     });
@@ -56,7 +55,7 @@ function CreateProjectForm() {
                     <>
                         <Stack sx={{ mb: 5 }}>
                             <Typography variant="h4" gutterBottom>
-                                Create new project
+                                Criar Projeto
                             </Typography>
                         </Stack>
                         <FormikProvider value={formik}>
@@ -68,7 +67,7 @@ function CreateProjectForm() {
                                             <TextField
                                                 fullWidth
                                                 type='String'
-                                                label='Name'
+                                                label='Nome'
                                                 {...getFieldProps('name')}
                                                 error={Boolean(touched.name && errors.name)}
                                                 helperText={touched.name && errors.name}
@@ -83,7 +82,7 @@ function CreateProjectForm() {
                                         variant='contained'
                                         loading={isSubmitting}
                                     >
-                                        Execute
+                                        Criar projeto
                                     </LoadingButton>
 
                                     <Button
@@ -94,7 +93,7 @@ function CreateProjectForm() {
                                         variant='contained'
                                         onClick={() => navigate('/projects')}
                                     >
-                                        Back
+                                        Voltar para listagem de projetos
                                     </Button>
 
                                 </Stack>

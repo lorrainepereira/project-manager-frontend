@@ -13,14 +13,13 @@ import {toast} from "react-toastify";
 
 function EditProjectForm() {
     const { state } = useLocation();
-    console.log('state=', state);
 
     const navigate = useNavigate();
 
     const schema = Yup.object().shape({
         name: Yup
             .string()
-            .required('Please enter a valid string'),
+            .required('Por favor, informe um nome válido.'),
     });
 
     const formik = useFormik({
@@ -29,8 +28,8 @@ function EditProjectForm() {
         },
         validationSchema: schema,
         onSubmit: async (values, { setSubmitting }) => {
-            if (values.name === null || values.name === undefined || values.name === '') {
-                errorMessage('Name is required');
+            if (values.name.trim() === '') {
+                errorMessage('Nome é obrigatório.');
                 setSubmitting(false);
                 return;
             }
@@ -41,11 +40,10 @@ function EditProjectForm() {
 
             const response = await put(`/projects/${state.row.id}`, body);
 
-            if(response){
-                toast.success('Project updated successfully');
-            }else{
-                toast.error('Project not updated successfully');
+            if(response && response.status === 200){
+                toast.success('Projeto atualizado com sucesso.');
             }
+
             setSubmitting(false);
         }
     });
@@ -60,7 +58,7 @@ function EditProjectForm() {
                     <>
                         <Stack sx={{ mb: 5 }}>
                             <Typography variant="h4" gutterBottom>
-                                Edit project
+                                Editar Projeto
                             </Typography>
                         </Stack>
                         <FormikProvider value={formik}>
@@ -72,7 +70,7 @@ function EditProjectForm() {
                                             <TextField
                                                 fullWidth
                                                 type='String'
-                                                label='Name'
+                                                label='Nome'
                                                 {...getFieldProps('name')}
                                                 error={Boolean(touched.name && errors.name)}
                                                 helperText={touched.name && errors.name}
@@ -87,7 +85,7 @@ function EditProjectForm() {
                                         variant='contained'
                                         loading={isSubmitting}
                                     >
-                                        Execute
+                                        Editar projeto
                                     </LoadingButton>
 
                                     <Button
@@ -98,7 +96,7 @@ function EditProjectForm() {
                                         variant='contained'
                                         onClick={() => navigate('/projects')}
                                     >
-                                        Back
+                                        Voltar para listagem de projeto
                                     </Button>
 
                                 </Stack>

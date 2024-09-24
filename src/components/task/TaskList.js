@@ -22,10 +22,10 @@ import MarkAllDoneModal from "../common/MarkAllDoneModal";
 
 const TABLE_HEAD = [
   { id: 'id', label: 'ID', alignRight: false },
-  { id: 'title', label: 'Title', alignRight: false },
+  { id: 'title', label: 'Título', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
-  { id: 'due_date', label: 'Due Date', alignRight: false },
+  { id: 'description', label: 'Descrição', alignRight: false },
+  { id: 'due_date', label: 'Data de Vencimento', alignRight: false },
   { id: 'create' },
   { id: 'delete' }
 ];
@@ -46,24 +46,22 @@ export default function TaskList() {
     if (response) {
       const data = await response.json();
       setTasks(data);
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
-  useEffect(   () => {
+  useEffect(() => {
     setLoading(true);
-    if (!tasks || tasks.length === 0) {
-      fetchAllTasks();
-    }
-    setLoading(false);
-  }, [tasks]);
+    fetchAllTasks();
+  }, []);
 
-  const handleOpenModalDeleteTask = async (id) => {
+  const handleOpenModalDeleteTask = (id) => {
     setDeleteTaskId(id);
     setShowDeleteModal(true);
   };
 
-  const handleOpenModalDoneTask = async () => {
+  const handleOpenModalDoneTask = () => {
     setShowMarkDoneModal(true);
   };
 
@@ -72,24 +70,20 @@ export default function TaskList() {
     const response = await del(`/tasks/${deleteTaskId}`);
 
     if (response && response.status === 200) {
-      toast.success('Project deleted successfully');
-      await fetchAllTasks();
+      toast.success('Projeto deletado com sucesso.');
       setLoading(true);
-    }else{
-      toast.error('Project not deleted successfully');
+      await fetchAllTasks();
     }
   };
 
   const handleMarkAllDoneTask = async () => {
     setShowMarkDoneModal(false);
-    const response = await patch(`/tasks/DONE`);
+    const response = await patch('/tasks/DONE');
 
     if (response && response.status === 200) {
-      toast.success('Project updated status for done successfully');
+      toast.success('Todas as tarefas foram atualizadas como concluídas com sucesso.');
       setLoading(true);
       await fetchAllTasks();
-    }else{
-      toast.error('Project not updated status for done successfully');
     }
 
   };
@@ -103,12 +97,12 @@ export default function TaskList() {
           <Button color={'secondary'}
                   variant="contained"
                   onClick={() => navigate('/projects/new-task', {state: { idProject: state.idProject}})}>
-            New Task
+            Nova tarefa
           </Button>
           <Button color={'secondary'}
                   variant="contained"
-                  onClick={() => handleOpenModalDoneTask()}>
-            Mark all done
+                  onClick={handleOpenModalDoneTask}>
+            Concluir todas tarefas
           </Button>
         </Stack>
         {loading && <Stack direction="row" alignItems="center" justifyContent="center" my={'25%'}><CircularProgress /></Stack>}
@@ -142,8 +136,8 @@ export default function TaskList() {
                               <TableCell align="left">{row.status}</TableCell>
                               <TableCell align="left">{row.description}</TableCell>
                               <TableCell align="left">{row.due_date}</TableCell>
-                              <TableCell align="right"><Button onClick={() => navigate('/projects/edit-task', {state: {row: row, idProject: state.idProject}})}><FaEdit title={'Edit Task'}/></Button></TableCell>
-                              <TableCell align="right"><Button onClick={() => handleOpenModalDeleteTask(row.id)}><RiDeleteBin5Line title={'Delete Task'}/></Button></TableCell>
+                              <TableCell align="right"><Button onClick={() => navigate('/projects/edit-task', {state: {row: row, idProject: state.idProject}})}><FaEdit title={'Editar Tarefa'}/></Button></TableCell>
+                              <TableCell align="right"><Button onClick={() => handleOpenModalDeleteTask(row.id)}><RiDeleteBin5Line title={'Deletar Tarefas'}/></Button></TableCell>
                             </TableRow>
                         );
                       })}
@@ -153,6 +147,14 @@ export default function TaskList() {
               </Card>
             </>
         }
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Button color={'secondary'}
+                  variant="contained"
+                  onClick={() => navigate('/projects')}
+                  style={{ marginTop: '30px' }} >
+            Voltar para listagem de projetos
+          </Button>
+        </Stack>
       </Container>
   );
 }
